@@ -1,65 +1,56 @@
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
-    private static final String Interger = null;
-
-    public static void main(String args[]) {
-
-        int check = 0;
-
-        String input = "[10,9,8,7] * [2,4,6,8]";
-        String[] splited;
-        String s1, s2;
-        String[] as1, as2;
-        ArrayList<Integer> numA, numB;
+    public static void main(String[] args) {
+        String input = "[ 5, 10, 15, 20 ] - [ 0, 10, 20 ]";
+        String[] split;
+        String[] s1, s2;
+        int check;
         if (input.contains("+")) {
+            split = input.split("\\+");
             check = 1;
-            splited = input.split(" [+] ");
         } else if (input.contains("*")) {
+            split = input.split("\\*");
             check = 2;
-            splited = input.split(" [*] ");
         } else if (input.contains("-")) {
+            split = input.split("\\-");
             check = 3;
-            splited = input.split(" [-] ");
         } else {
-            System.out.println("Error!");
             return;
         }
-        s1 = splited[0].substring(1, splited[0].lastIndexOf("]"));
-        s2 = splited[1].substring(1, splited[1].lastIndexOf("]"));
 
-        System.out.println(input);
-        as1 = s1.split(",");
-        as2 = s2.split(",");
-        numA = new ArrayList<Integer>();
-        numB = new ArrayList<Integer>();
-        for (String ad : as1) {
-            numA.add(Integer.parseInt(ad.trim()));
+        s1 = split[0].split(",");
+        ArrayList<Integer> a = new ArrayList<>();
+        for (int i = 0; i < s1.length; i++) {
+            a.add(Integer.parseInt(s1[i].replaceAll("[^0-9]", "")));
         }
 
-        for (String ad : as2) {
-            numB.add(Integer.parseInt(ad.trim()));
+        s2 = split[1].split(",");
+        ArrayList<Integer> b = new ArrayList<>();
+        for (int i = 0; i < s2.length; i++) {
+            b.add(Integer.parseInt(s2[i].replaceAll("[^0-9]", "")));
         }
 
-        Set<Integer> union = new HashSet<Integer>(numA);
-        union.addAll(numB);
-
-        Set<Integer> inter = new HashSet<Integer>(numA);
-        inter.retainAll(numB);
-
-        Set<Integer> diff = new HashSet<Integer>(numA);
-        diff.removeAll(numB);
+        Set<Integer> set1 = new HashSet<Integer>();
+        set1.addAll(a);
+        Set<Integer> set2 = new HashSet<Integer>();
+        set2.addAll(b);
 
         if (check == 1) {
+            Set<Integer> union = new HashSet<Integer>(a);
+            union.addAll(b);
+            System.out.print("Union of the two Set ");
             System.out.println(union);
         } else if (check == 2) {
-            System.out.println(inter);
+            Set<Integer> intersection = new HashSet<Integer>(a);
+            intersection.retainAll(b);
+            System.out.print("Intersection of the two Set ");
+            System.out.println(intersection);
         } else if (check == 3) {
-            System.out.println(diff);
-        } else {
-            System.out.println("Error!!");
+            Set<Integer> difference = new HashSet<Integer>(a);
+            difference.removeAll(b);
+            System.out.print("Difference of the two Set ");
+            System.out.println(difference);
         }
 
     }
